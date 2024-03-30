@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { AppKoaContext, Next, AppRouter, Template, User } from 'types';
+import { AppKoaContext, Next, AppRouter, Template, User, Product } from 'types';
 import { EMAIL_REGEX, PASSWORD_REGEX } from 'app-constants';
 
 import { userService } from 'resources/user';
@@ -10,46 +10,40 @@ import { analyticsService, emailService } from 'services';
 import { securityUtil } from 'utils';
 
 import config from 'config';
+import productService from '../product.service';
 
 const schema = z.object({
-  email: z.string().regex(EMAIL_REGEX, 'Email format is incorrect.'),
-  password: z.string().regex(PASSWORD_REGEX, 'The password must contain 8 or more characters with at least one letter (a-z) and one number (0-9).'),
+  title: z.string(),
+  price: z.number(),
 });
 
 interface ValidatedData extends z.infer<typeof schema> {
-  user: User;
+  product: Product;
 }
 
 async function validator(ctx: AppKoaContext<ValidatedData>, next: Next) {
-  const { email } = ctx.validatedData;
-  console.log(userService.findOne({ email }));
-  const isUserExists = await userService.exists({ email });
+  const { title } = ctx.validatedData;
+  //console.log(userService.findOne({ email }))
+  /*const isProductExists = await productService.exists({ title });
 
-  ctx.assertClientError(!isUserExists, {
+  ctx.assertClientError(!isProductExists, {
     email: 'User with this email is already registered',
   });
-
+  */
   await next();
 }
 
 async function handler(ctx: AppKoaContext<ValidatedData>) {
   const {
-    email,
-    password,
+    title,
+    price,
   } = ctx.validatedData;
 
-  const [hash, signupToken] = await Promise.all([
-    securityUtil.getHash(password),
-    securityUtil.generateSecureToken(),
-  ]);
-
-  const user = await userService.insertOne({
-    email,
-    passwordHash: hash.toString(),
-    isEmailVerified: false,
-    signupToken,
+  const product = await productService.insertOne({
+    title,
+    price,
+    isSold: false,
   });
-
   /*await emailService.sendTemplate<Template.VERIFY_EMAIL>({
     to: user.email,
     subject: 'Please Confirm Your Email Address for Ship',
@@ -60,9 +54,9 @@ async function handler(ctx: AppKoaContext<ValidatedData>) {
     },
   });*/
 
-  ctx.body = config.IS_DEV ? { signupToken } : {};
+  ctx.body = { product };
 }
 
 export default (router: AppRouter) => {
-  router.post('/sign-up', validateMiddleware(schema), validator, handler);
+  router.post('/create', validateMiddleware(schema), validator, handler);
 };

@@ -76,6 +76,12 @@ export function useUploadAvatar<T>() {
   });
 }
 
+export function useAvatarUrl<T>() {
+  const getUrlAvatar = (name: T) => apiService.get(`/account/avatar/${name}`);
+
+  return useMutation<any, unknown, T>(getUrlAvatar);
+}
+
 export function useRemoveAvatar() {
   const removeAvatar = () => apiService.delete('/account/avatar');
 
