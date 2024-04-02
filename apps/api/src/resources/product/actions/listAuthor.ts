@@ -1,10 +1,10 @@
 import { z } from 'zod';
 
-import { AppKoaContext, AppRouter } from 'types';
+import { AppKoaContext, AppRouter, Next } from 'types';
+import { productService } from '..';
+import { userService } from '../../user';
 
-import { productService } from 'resources/product';
-
-import { validateMiddleware } from 'middlewares';
+import { validateMiddleware } from '../../../middlewares';
 
 const schema = z.object({
   page: z.string().transform(Number).default('1'),
@@ -22,33 +22,33 @@ const schema = z.object({
 });
 
 type ValidatedData = z.infer<typeof schema>;
+type Request = {
+  params: {
+    id: string;
+  }
+};
 
-async function handler(ctx: AppKoaContext<ValidatedData>) {
+async function validator(ctx: AppKoaContext<ValidatedData, Request>, next: Next) {
+  const isUserExists = await userService.exists({ _id: ctx.request.params.id });
+  
+  ctx.assertError(isUserExists, 'User not found');
+  
+  await next();
+}
+
+async function handler(ctx: AppKoaContext<ValidatedData, Request>) {
   const {
     perPage, page, sort, searchValue, filter,
   } = ctx.validatedData;
+
+  const { id } = ctx.request.params;
 
   const validatedSearch = searchValue.split('\\').join('\\\\').split('.').join('\\.');
   const regExp = new RegExp(validatedSearch, 'gi');
 
   const products = await productService.find(
     {
-      $and: [
-        {
-          $or: [
-            { title: { $regex: regExp } },
-            { price: {} },
-            { isSold: {} },
-            { imageUrl: {} },
-          ],
-        },
-        /*filter?.createdOn ? {
-          createdOn: {
-            $gte: new Date(filter.createdOn.sinceDate as string),
-            $lt: new Date(filter.createdOn.dueDate as string),
-          },
-        } : {},*/
-      ],
+      authorId: id,
     },
     { page, perPage },
     { sort },
@@ -62,5 +62,5 @@ async function handler(ctx: AppKoaContext<ValidatedData>) {
 }
 
 export default (router: AppRouter) => {
-  router.get('/', validateMiddleware(schema), handler);
+  router.get('/:id', validator, validateMiddleware(schema), handler);
 };

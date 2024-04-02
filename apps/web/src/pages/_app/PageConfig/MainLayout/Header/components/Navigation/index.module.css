@@ -1,0 +1,15 @@
+.buttonLinkUse{
+    background-color: #9a9a9a63;
+    color: rgb(0, 0, 0);
+    border-radius: 999;
+}
+
+.buttonLink{
+    background-color: #9a9a9a00;
+    color: rgba(0, 0, 0, 0.484);
+    border-radius: 999;
+}
+
+.container{
+    display: flex;
+}

@@ -1,4 +1,4 @@
-import { FC, ReactElement } from 'react';
+import { FC, ReactElement, useState, useEffect } from 'react';
 import { AppShell } from '@mantine/core';
 
 import Header from './Header';
@@ -10,23 +10,31 @@ interface MainLayoutProps {
   children: ReactElement;
 }
 
-const MainLayout: FC<MainLayoutProps> = ({ children }) => (
-  <AppShell
-    header={{ height: 72 }}
-    footer={{ height: 40 }}
-    classNames={{
-      root: classes.root,
-      main: classes.main,
-    }}
-  >
-    <Header />
+const MainLayout: FC<MainLayoutProps> = ({ children }) => {
+  const [rout, setRout] = useState<string>('');
 
-    <AppShell.Main>
-      {children}
-    </AppShell.Main>
+  useEffect(() => {
+    setRout(window.location.href.split('/')[3]);
+  }, []);
 
-    <Footer />
-  </AppShell>
-);
+  return (
+    <AppShell
+      header={{ height: 72 }}
+      footer={{ height: 40 }}
+      classNames={{
+        root: classes.root,
+        main: classes.main,
+      }}
+    >
+      <Header rout={rout} />
+
+      <AppShell.Main>
+        {children}
+      </AppShell.Main>
+
+      <Footer />
+    </AppShell>
+  );
+};
 
 export default MainLayout;

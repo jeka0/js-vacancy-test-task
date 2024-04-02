@@ -1,6 +1,7 @@
 import { AppKoaContext, AppRouter, Next } from 'types';
 
 import { userService } from 'resources/user';
+import { productService } from 'resources/product';
 
 type ValidatedData = never;
 type Request = {
@@ -10,15 +11,15 @@ type Request = {
 };
 
 async function validator(ctx: AppKoaContext<ValidatedData, Request>, next: Next) {
-  const isUserExists = await userService.exists({ _id: ctx.request.params.id });
+  const isProductExists = await productService.exists({ _id: ctx.request.params.id });
 
-  ctx.assertError(isUserExists, 'User not found');
+  ctx.assertError(isProductExists, 'Product not found');
 
   await next();
 }
 
 async function handler(ctx: AppKoaContext<ValidatedData, Request>) {
-  await userService.deleteSoft({ _id: ctx.request.params.id });
+  await productService.deleteSoft({ _id: ctx.request.params.id });
 
   ctx.body = {};
 }

@@ -1,104 +1,67 @@
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useQueryClient } from 'react-query';
-import { showNotification } from '@mantine/notifications';
+import { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
 import { NextPage } from 'next';
-import { Button, TextInput, Stack, Title } from '@mantine/core';
-
+import { Stack } from '@mantine/core';
+import { Link } from 'components';
+import { RoutePath } from 'routes';
 import { productApi } from 'resources/product';
-
-import { handleError } from 'utils';
+import { accountApi } from 'resources/account';
+import { IconCirclePlus } from '@tabler/icons-react';
+import { Product } from 'types';
+import ProductView from './productView';
 
 import classes from './index.module.css';
 
-const schema = z.object({
-  title: z.string().min(1, 'Please enter title').max(100),
-  price: z.number(),
-});
-
-type CreateParams = z.infer<typeof schema>;
-
-const Product: NextPage = () => {
-  const queryClient = useQueryClient();
+const ProductPG: NextPage = () => {
+  const { data: account } = accountApi.useGet();
+  const [myProducts, setMyProducts] = useState<Array<Product>>([]);
 
   const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors },
-  } = useForm<CreateParams>({
-    resolver: zodResolver(schema),
-  });
+    mutate: getProducts,
+  } = productApi.useGetMyProducts();
 
-  const {
-    mutate: create,
-    isLoading: isUpdateLoading,
-  } = productApi.useCreate<CreateParams>();
-
-  const onSubmit = (submitData: CreateParams) => create(submitData, {
-    onSuccess: (data) => {
-      console.log(data);
-      queryClient.setQueryData(['created-product'], data);
-      showNotification({
-        title: 'Success',
-        message: 'Your product has been successfully created.',
-        color: 'green',
+  const update = useCallback(() => {
+    if (account) {
+      getProducts(account._id, {
+        onSuccess: (res) => {
+          setMyProducts(res.items);
+        },
       });
-    },
-    onError: (e) => handleError(e, setError),
-  });
+    }
+  }, [account, getProducts]);
+
+  useEffect(() => {
+    update();
+  }, [update]);
+
+  const showList = () => myProducts.map((product) => (
+    <ProductView
+      data={product}
+      update={update}
+    />
+  ));
 
   return (
     <>
       <Head>
-        <title>Create product</title>
+        <title>My products</title>
       </Head>
       <Stack
-        w={408}
-        m="auto"
-        pt={48}
-        gap={32}
+        w="100%"
+        style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}
       >
-        <Title order={1}>Create new product</Title>
-
-        <form
-          className={classes.form}
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <Stack gap={20}>
-            <TextInput
-              {...register('title')}
-              label="Title"
-              placeholder="Title"
-              labelProps={{
-                'data-invalid': !!errors.title,
-              }}
-              error={errors.title?.message}
-            />
-
-            <TextInput
-              {...register('price', { valueAsNumber: true })}
-              label="Price"
-              placeholder="Price"
-              labelProps={{
-                'data-invalid': !!errors.price,
-              }}
-              error={errors.price?.message}
-            />
-          </Stack>
-
-          <Button
-            type="submit"
-            loading={isUpdateLoading}
-          >
-            Upload Product
-          </Button>
-        </form>
+        <div className={classes.addarea}>
+          <Link type="router" href={RoutePath.CreateProduct} underline={false}>
+            <div className={classes.addarea}>
+              <IconCirclePlus size={42} />
+              <h3 style={{ margin: 0 }}>New Product</h3>
+            </div>
+          </Link>
+        </div>
+        {showList()}
       </Stack>
     </>
   );
 };
 
-export default Product;
+export default ProductPG;
