@@ -6,12 +6,12 @@ import noImage from 'public/images/no-photo--lg.png';
 
 import classes from './index.module.css';
 
-const ProductView = (props:{ data:Product, update: ()=>void }) => {
+const ProductView = (props:{ data:Product, update: ()=>void, showControlls:boolean }) => {
   const {
     mutate: deleteProduct,
   } = productApi.useDeleteProducts();
 
-  const { data, update } = props;
+  const { data, update, showControlls } = props;
 
   const onsale = {
     backgroundColor: 'rgb(255, 241, 214)',
@@ -32,10 +32,18 @@ const ProductView = (props:{ data:Product, update: ()=>void }) => {
 
     <div className={classes.area}>
       <div className={classes.imageArea}>
-        <ActionIcon className={classes.delete} onClick={deleteClick}><IconTrash /></ActionIcon>
+        {showControlls
+        && (
+        <ActionIcon className={classes.delete} onClick={deleteClick}>
+          <IconTrash />
+        </ActionIcon>
+        )}
+        {showControlls
+        && (
         <div className={classes.sale} style={data.isSold ? sold : onsale}>
           <b>{data.isSold ? 'Sold' : 'On sale'}</b>
         </div>
+        )}
         <Image src={data?.imageUrl ? data.imageUrl : noImage.src} className={classes.image} />
       </div>
       <div className={classes.info}>

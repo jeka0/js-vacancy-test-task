@@ -13,9 +13,9 @@ const schema = z.object({
     createdOn: z.enum(['asc', 'desc']),
   }).default({ createdOn: 'desc' }),
   filter: z.object({
-    createdOn: z.object({
-      sinceDate: z.string(),
-      dueDate: z.string(),
+    price: z.object({
+      fromPrice: z.string().transform(Number).nullable().default(null),
+      toPrice: z.string().transform(Number).nullable().default(null),
     }).nullable().default(null),
   }).nullable().default(null),
   searchValue: z.string().default(''),
@@ -29,25 +29,19 @@ async function handler(ctx: AppKoaContext<ValidatedData>) {
   } = ctx.validatedData;
 
   const validatedSearch = searchValue.split('\\').join('\\\\').split('.').join('\\.');
-  const regExp = new RegExp(validatedSearch, 'gi');
-
+  const regExp = new RegExp(validatedSearch, 'i');
+  const query = { price:{} };
+  if (filter?.price?.fromPrice)query.price = { $gte: filter.price.fromPrice };
+  if (filter?.price?.toPrice)query.price = { ...query.price, $lt: filter.price.toPrice };
+  console.log(filter);
+  console.log(query);
   const products = await productService.find(
     {
       $and: [
         {
-          $or: [
-            { title: { $regex: regExp } },
-            { price: {} },
-            { isSold: {} },
-            { imageUrl: {} },
-          ],
+          title: { $regex: regExp },
         },
-        /*filter?.createdOn ? {
-          createdOn: {
-            $gte: new Date(filter.createdOn.sinceDate as string),
-            $lt: new Date(filter.createdOn.dueDate as string),
-          },
-        } : {},*/
+        filter?.price ? query : {},
       ],
     },
     { page, perPage },

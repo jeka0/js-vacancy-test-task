@@ -38,6 +38,7 @@ const ProductPG: NextPage = () => {
     <ProductView
       data={product}
       update={update}
+      showControlls
     />
   ));
 

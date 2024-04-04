@@ -19,11 +19,11 @@ const Navigation = (props:{ rout:string }) => {
   const { rout } = props;
   return (
     <div className={classes.container}>
-      <Link type="router" href={RoutePath.Home} underline={false}>
+      <Link type="router" href={RoutePath.Marketplace} underline={false}>
         <Button
           className={cx(
             classes.buttonLinkUse,
-            { [classes.buttonLink]: true },
+            { [classes.buttonLink]: rout !== 'marketplace' },
           )}
           style={buttonStyle}
         >

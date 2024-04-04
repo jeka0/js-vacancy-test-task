@@ -9,12 +9,14 @@ const UserMenu: FC = () => {
   const { mutate: signOut } = accountApi.useSignOut();
   const [itemCount, setItemCount] = useState(1);
 
-  setItemCount(1);
-
   return (
     <div className={classes.menu}>
       <ShoppingCart count={itemCount} />
-      <IconLogout size={36} style={{ marginLeft: 20 }} onClick={() => signOut()} />
+      <IconLogout
+        size={36}
+        style={{ marginLeft: 20 }}
+        onClick={() => { setItemCount(1); signOut(); }}
+      />
     </div>
   );
 };

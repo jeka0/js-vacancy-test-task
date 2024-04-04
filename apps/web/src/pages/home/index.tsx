@@ -17,7 +17,6 @@ import { useDebouncedValue, useInputState } from '@mantine/hooks';
 import { IconSearch, IconX, IconSelector } from '@tabler/icons-react';
 import { RowSelectionState, SortingState } from '@tanstack/react-table';
 import { DatePickerInput, DatesRangeValue } from '@mantine/dates';
-
 import { userApi } from 'resources/user';
 
 import { Table } from 'components';
@@ -83,7 +82,6 @@ const Home: NextPage = () => {
   }, [debouncedSearch]);
 
   const { data, isLoading: isListLoading } = userApi.useList(params);
-
   return (
     <>
       <Head>
