@@ -91,6 +91,7 @@ const Marketplace: NextPage = () => {
       data={product}
       update={() => {}}
       showControlls={false}
+      addButton
     />
   ));
 

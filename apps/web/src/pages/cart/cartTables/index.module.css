@@ -1,0 +1,47 @@
+.group{
+  padding: 10px 10px;
+  height: 80vh;
+  display: flex;
+}
+
+.summaryArea{
+  flex:1;
+  height: 100%;
+}
+
+.tableArea{
+  flex:3;
+  height: 100%;
+}
+
+.summary{
+  background-color: white;
+  margin: 20px;
+  border: 1px solid rgb(216, 216, 216);
+  border-radius: 6px;
+  padding: 10px 20px;
+}
+
+.priceArea{
+  display:flex;
+  flex-direction: row;
+}
+
+.priceTitle{
+  color: rgb(94, 94, 94);
+  font-size: 17px;
+}
+
+.priceValue{
+  margin-left: auto;
+}
+
+.sumBut{
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 30px;
+}
+
+.line{
+  margin: 30px 0;
+}

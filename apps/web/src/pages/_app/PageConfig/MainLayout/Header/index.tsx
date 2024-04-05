@@ -33,12 +33,13 @@ const Header: FC<{ rout:string }> = ({ rout }) => {
             visibleFrom="sm"
             alt="App logo"
             src={ImageLogo.src}
-            h="8vh"
+            h="42px"
             right={0}
+            style={{ objectFit: 'contain' }}
           />
         </Link>
         <Navigation rout={rout} />
-        <UserMenu />
+        <UserMenu rout={rout} />
       </Container>
     </LayoutHeader>
   );

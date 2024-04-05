@@ -1,6 +1,7 @@
 import { useCallback, useLayoutEffect, useState } from 'react';
 import Head from 'next/head';
 import { NextPage } from 'next';
+import { useRouter } from 'next/navigation';
 import {
   Select,
   TextInput,
@@ -76,10 +77,11 @@ const Home: NextPage = () => {
       }));
     }
   }, []);
-
+  const router = useRouter();
   useLayoutEffect(() => {
+    router.push('/marketplace');
     setParams((prev) => ({ ...prev, page: 1, searchValue: debouncedSearch, perPage: PER_PAGE }));
-  }, [debouncedSearch]);
+  }, [debouncedSearch, router]);
 
   const { data, isLoading: isListLoading } = userApi.useList(params);
   return (

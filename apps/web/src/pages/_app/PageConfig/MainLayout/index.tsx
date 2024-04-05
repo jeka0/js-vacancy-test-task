@@ -1,5 +1,6 @@
 import { FC, ReactElement, useState, useEffect } from 'react';
 import { AppShell } from '@mantine/core';
+import { CartProvider } from 'pages/cart/cartContext';
 
 import Header from './Header';
 
@@ -25,12 +26,13 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
         main: classes.main,
       }}
     >
-      <Header rout={rout} />
+      <CartProvider>
+        <Header rout={rout} />
 
-      <AppShell.Main>
-        {children}
-      </AppShell.Main>
-
+        <AppShell.Main>
+          {children}
+        </AppShell.Main>
+      </CartProvider>
     </AppShell>
   );
 };

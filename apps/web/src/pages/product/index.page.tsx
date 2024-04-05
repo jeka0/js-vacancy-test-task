@@ -39,6 +39,7 @@ const ProductPG: NextPage = () => {
       data={product}
       update={update}
       showControlls
+      addButton={false}
     />
   ));
 

@@ -1,17 +1,31 @@
-import { Image, ActionIcon } from '@mantine/core';
+import { useState, useEffect } from 'react';
+import { Image, ActionIcon, Button } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import { productApi } from 'resources/product';
 import { Product } from 'types';
 import noImage from 'public/images/no-photo--lg.png';
+import { useCart } from 'pages/cart/cartContext';
 
 import classes from './index.module.css';
 
-const ProductView = (props:{ data:Product, update: ()=>void, showControlls:boolean }) => {
+const ProductView = (props:{
+  data:Product,
+  update: ()=>void,
+  showControlls:boolean,
+  addButton:boolean
+}) => {
   const {
     mutate: deleteProduct,
   } = productApi.useDeleteProducts();
+  const { addToCart, cartData } = useCart();
+  const [inCart, setInCart] = useState<boolean>(false);
 
-  const { data, update, showControlls } = props;
+  const { data, update, showControlls, addButton } = props;
+  useEffect(() => {
+    if (cartData && addButton) {
+      setInCart(cartData.cartArray.some((item) => item.productId === data._id));
+    }
+  }, [data, cartData, setInCart, addButton]);
 
   const onsale = {
     backgroundColor: 'rgb(255, 241, 214)',
@@ -57,6 +71,16 @@ const ProductView = (props:{ data:Product, update: ()=>void, showControlls:boole
             </b>
           </label>
         </div>
+        {addButton
+          ? (
+            <Button
+              className={classes.addBut}
+              disabled={inCart}
+              onClick={() => addToCart(data._id)}
+            >
+              {inCart ? 'In Cart' : 'Add to Cart'}
+            </Button>
+          ) : null}
       </div>
     </div>
   );
