@@ -36,6 +36,7 @@ const ProductPG: NextPage = () => {
 
   const showList = () => myProducts.map((product) => (
     <ProductView
+      key={product._id}
       data={product}
       update={update}
       showControlls

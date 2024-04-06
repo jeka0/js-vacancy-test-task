@@ -21,6 +21,7 @@ type CartContextType = {
   addToCart: (productId:string)=>void;
   removeFromCart: (recordId:string)=>void;
   cartData: Cart | undefined;
+  updateData:()=>void
 };
 
 const cartContextDefaultValues: CartContextType = {
@@ -36,6 +37,7 @@ const cartContextDefaultValues: CartContextType = {
     cartArray: [],
     historyArray: [],
   },
+  updateData: () => {},
 };
 
 const CartContext = createContext<CartContextType>(cartContextDefaultValues);
@@ -65,8 +67,7 @@ export const CartProvider = ({ children }: Props) => {
   const {
     mutate: createRecord,
   } = recordApi.useCreate();
-
-  useEffect(() => {
+  const updateData = useCallback(() => {
     if (account) {
       get({ userId: account?._id }, {
         onSuccess: (res) => {
@@ -76,7 +77,9 @@ export const CartProvider = ({ children }: Props) => {
       });
     }
   }, [account, get]);
-
+  useEffect(() => {
+    updateData();
+  }, [updateData]);
   const addToCart = useCallback((productId:string) => {
     createRecord({ productId }, {
       onSuccess: (res) => {
@@ -109,11 +112,13 @@ export const CartProvider = ({ children }: Props) => {
     cartData,
     addToCart,
     removeFromCart,
+    updateData,
   }), [count,
     setCount,
     cartData,
     addToCart,
-    removeFromCart]);
+    removeFromCart,
+    updateData]);
 
   return (
     <CartContext.Provider value={values}>

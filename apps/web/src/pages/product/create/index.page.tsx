@@ -47,13 +47,16 @@ const CreateProduct: NextPage = () => {
   useEffect(() => {
     if (account)setValue('authorId', account._id);
   }, [account, setValue]);
-  const onSubmit = (submitData: CreateParams) => create(submitData, {
-    onSuccess: (data) => {
-      queryClient.setQueryData(['created-product'], data);
-      window.history.back();
-    },
-    onError: (e) => handleError(e, setError),
-  });
+  console.log();
+  const onSubmit = (submitData: CreateParams) => {
+    console.log(submitData); create(submitData, {
+      onSuccess: (data) => {
+        queryClient.setQueryData(['created-product'], data);
+        window.history.back();
+      },
+      onError: (e) => handleError(e, setError),
+    });
+  };
 
   return (
     <>
@@ -94,6 +97,7 @@ const CreateProduct: NextPage = () => {
           </Stack>
 
           <Button
+            type="submit"
             style={{ width: 180, fontSize: 14, height: 40, borderRadius: 10, marginLeft: 'auto' }}
           >
             Upload Product

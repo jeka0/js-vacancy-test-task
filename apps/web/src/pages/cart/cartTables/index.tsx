@@ -1,23 +1,72 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
 import { Button, Title, Group } from '@mantine/core';
 import { Record } from 'types';
-import classes from './index.module.css';
+import { stripeApi } from 'resources/stripe';
+import { loadStripe } from '@stripe/stripe-js';
+import { useRouter } from 'next/router';
+import { accountApi } from 'resources/account';
 import { useCart } from '../cartContext';
+import classes from './index.module.css';
 import CartTable from './cartTable';
+import HistoryTable from './historyTable';
 
 const CartTables = (props: { isMain:boolean }) => {
   const { isMain } = props;
   const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [sessionId, setSessionId] = useState<string>();
   const { cartData } = useCart();
-
-  useEffect(() => {
+  const router = useRouter();
+  const asyncStripe = loadStripe('pk_test_51P29dT08aI5ox2vdpaFH9SKaZFEUijTDx77yzKnRRx99W5s7yBmfwC9AcaL1Liar3k7iXdj92vIFvenyEkHr3QYa00qXJ68iud');
+  const { data: account } = accountApi.useGet();
+  const {
+    mutate: get,
+  } = stripeApi.useGetSession();
+  const counter = useCallback(() => {
     setTotalPrice(0);
     cartData?.cartArray.forEach((record: Record) => {
-      setTotalPrice((prevCount) => prevCount + record.product.price);
+      setTotalPrice((prevCount) => prevCount + record.product.price * record.quantity);
     });
   }, [cartData]);
 
+  useEffect(() => {
+    counter();
+  }, [counter]);
+
+  useEffect(() => {
+    if (sessionId) {
+      asyncStripe.then((stripe) => {
+        if (stripe) {
+          return stripe.redirectToCheckout({ sessionId });
+        }
+        return null;
+      }).then((res) => {
+        if (res?.error) {
+          router.push('/pay/error');
+        }
+      });
+    }
+  }, [sessionId, asyncStripe, router]);
+
+  const handler = async () => {
+    try {
+      if (account) {
+        get({ userId: account._id }, {
+          onSuccess: (res) => setSessionId(res.sessionId),
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      router.push('/pay/error');
+    }
+  };
+  const showTables = () => {
+    if (cartData) {
+      if (isMain) { return (<CartTable cartArray={cartData.cartArray} count={counter} />); }
+      return (<HistoryTable historyArray={cartData.historyArray} />);
+    }
+    return null;
+  };
   return (
     <>
       <Head>
@@ -25,7 +74,7 @@ const CartTables = (props: { isMain:boolean }) => {
       </Head>
       <Group className={classes.group}>
         <div className={classes.tableArea}>
-          {isMain ? <CartTable cartArray={cartData?.cartArray} /> : null}
+          {showTables()}
         </div>
         <div className={classes.summaryArea}>
           {isMain
@@ -40,7 +89,13 @@ const CartTables = (props: { isMain:boolean }) => {
                     {totalPrice}
                   </Title>
                 </div>
-                <Button size="sm" className={classes.sumBut}>Procced to Checkout</Button>
+                <Button
+                  size="sm"
+                  className={classes.sumBut}
+                  onClick={handler}
+                >
+                  Procced to Checkout
+                </Button>
               </div>
             )
             : null}

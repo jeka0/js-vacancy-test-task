@@ -88,6 +88,7 @@ const Marketplace: NextPage = () => {
 
   const showList = () => list?.items.map((product) => (
     <ProductView
+      key={product._id}
       data={product}
       update={() => {}}
       showControlls={false}

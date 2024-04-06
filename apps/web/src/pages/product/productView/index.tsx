@@ -44,7 +44,7 @@ const ProductView = (props:{
 
   return (
 
-    <div className={classes.area}>
+    <div className={classes.area} style={{ height: addButton ? '270px' : '240px' }}>
       <div className={classes.imageArea}>
         {showControlls
         && (

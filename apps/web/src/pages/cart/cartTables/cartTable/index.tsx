@@ -6,8 +6,8 @@ import { recordApi } from 'resources/record';
 import ProductRow from 'pages/product/productRow';
 import classes from './index.module.css';
 
-const CartTable = (props: { cartArray: Array<Record> | undefined }) => {
-  const { cartArray } = props;
+const CartTable = (props: { cartArray: Array<Record>, count: ()=>void }) => {
+  const { cartArray, count } = props;
   const { removeFromCart } = useCart();
   const {
     mutate: increment,
@@ -23,6 +23,7 @@ const CartTable = (props: { cartArray: Array<Record> | undefined }) => {
         onSuccess: (res) => {
           const foundIndex = cartArray.findIndex((record) => record._id === res._id);
           cartArray[foundIndex].quantity = res.quantity;
+          count();
         },
       });
     }
@@ -33,6 +34,7 @@ const CartTable = (props: { cartArray: Array<Record> | undefined }) => {
         onSuccess: (res) => {
           const foundIndex = cartArray.findIndex((record) => record._id === res._id);
           cartArray[foundIndex].quantity = res.quantity;
+          count();
         },
       });
     }

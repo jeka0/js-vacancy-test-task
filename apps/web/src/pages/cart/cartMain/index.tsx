@@ -20,10 +20,10 @@ const MainCart = () => {
         right={0}
         style={{ objectFit: 'contain' }}
       />
-      <Title mt={40} order={2}>Oops, there&aposs nothing here yet!</Title>
+      <Title mt={40} order={2}>Oops, there&apos;s nothing here yet!</Title>
 
       <Text mx={0} mt={20} mb={0} c="gray.6">
-        You haven&apost made any purchases yet.
+        You haven&apos;t made any purchases yet.
       </Text>
       <Text mx={0} mt={0} mb={24} c="gray.6">
         Go to the matketplace and make purhases.

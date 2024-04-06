@@ -37,7 +37,7 @@ const CartPage: NextPage = () => {
             </Title>
           </Button>
         </div>
-        {count === 0 ? <MainCart /> : <CartTables isMain={isMain} />}
+        {count === 0 && isMain ? <MainCart /> : <CartTables isMain={isMain} />}
       </div>
     </>
   );
