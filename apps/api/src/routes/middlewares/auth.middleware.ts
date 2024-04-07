@@ -2,6 +2,7 @@ import { AppKoaContext, Next } from 'types';
 
 const auth = (ctx: AppKoaContext, next: Next) => {
   if (ctx.state.user) {
+    console.log(ctx.state);
     return next();
   }
 
