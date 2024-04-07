@@ -1,7 +1,7 @@
 import { FC, ReactElement } from 'react';
 
 import { SimpleGrid, Image, Center } from '@mantine/core';
-import ImageAuth from 'public/images/auth.jpg';
+import ImageAuth from 'public/images/auth.png';
 
 interface UnauthorizedLayoutProps {
   children: ReactElement;
