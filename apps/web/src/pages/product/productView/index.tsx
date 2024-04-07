@@ -3,7 +3,6 @@ import { Image, ActionIcon, Button } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import { productApi } from 'resources/product';
 import { Product } from 'types';
-import noImage from 'public/images/no-photo--lg.png';
 import { useCart } from 'pages/cart/cartContext';
 
 import classes from './index.module.css';
@@ -58,7 +57,7 @@ const ProductView = (props:{
           <b>{data.isSold ? 'Sold' : 'On sale'}</b>
         </div>
         )}
-        <Image src={data?.imageUrl ? data.imageUrl : noImage.src} className={classes.image} />
+        <Image src={data?.imageUrl ? data.imageUrl : '/images/no-photo--lg.png'} className={classes.image} />
       </div>
       <div className={classes.info}>
         <h3 style={{ margin: 8 }}>{data.title}</h3>

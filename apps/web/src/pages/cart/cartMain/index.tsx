@@ -1,7 +1,6 @@
 import { useCallback } from 'react';
 import router from 'next/router';
 import { Title, Text, Button, Image } from '@mantine/core';
-import ImageFile from 'public/images/empty.png';
 import { RoutePath } from 'routes';
 import classes from './index.module.css';
 
@@ -15,7 +14,7 @@ const MainCart = () => {
       <Image
         visibleFrom="sm"
         alt="Success logo"
-        src={ImageFile.src}
+        src="/images/empty.png"
         h="200px"
         right={0}
         style={{ objectFit: 'contain' }}

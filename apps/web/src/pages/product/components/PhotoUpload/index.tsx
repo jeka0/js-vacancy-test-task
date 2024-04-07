@@ -6,7 +6,6 @@ import cx from 'clsx';
 import { productApi } from 'resources/product';
 
 import { handleError } from 'utils';
-import Image from '../../../../../public/images/photo_8924441.png';
 
 import classes from './index.module.css';
 
@@ -82,7 +81,7 @@ const PhotoUpload = (props: { imageUrl:string | undefined, setImageUrl: any }) =
                   className={classes.avatar}
                   w={150}
                   h={150}
-                  src={imageUrl || Image.src}
+                  src={imageUrl || '/images/photo_8924441.png'}
                 />
 
               </label>

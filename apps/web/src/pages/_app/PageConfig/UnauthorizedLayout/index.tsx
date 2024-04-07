@@ -1,7 +1,6 @@
 import { FC, ReactElement } from 'react';
 
 import { SimpleGrid, Image, Center } from '@mantine/core';
-import ImageAuth from 'public/images/auth.png';
 
 interface UnauthorizedLayoutProps {
   children: ReactElement;
@@ -18,7 +17,7 @@ const UnauthorizedLayout: FC<UnauthorizedLayoutProps> = ({ children }) => (
     <Image
       visibleFrom="sm"
       alt="App Info"
-      src={ImageAuth.src}
+      src="/images/auth.png"
       h="100vh"
       right={0}
       style={{ objectFit: 'contain' }}

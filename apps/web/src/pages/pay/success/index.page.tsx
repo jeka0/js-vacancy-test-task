@@ -3,7 +3,6 @@ import Head from 'next/head';
 import router from 'next/router';
 import { NextPage } from 'next';
 import { Stack, Title, Text, Button, Image } from '@mantine/core';
-import ImageFile from 'public/images/success.png';
 import { RoutePath } from 'routes';
 import classes from './index.module.css';
 
@@ -28,7 +27,7 @@ const PaySuccess: NextPage = () => {
           <Image
             visibleFrom="sm"
             alt="Success logo"
-            src={ImageFile.src}
+            src="/images/success.png"
             h="100px"
             right={0}
             style={{ objectFit: 'contain' }}
