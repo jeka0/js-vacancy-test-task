@@ -3,6 +3,6 @@ import dbSchema from './db.schema';
 
 export const recordSchema = dbSchema.extend({
   quantity: z.number(),
-  date: z.date().optional().nullable(),
+  date: z.string().optional().nullable(),
   productId: z.string(),
 }).strict();

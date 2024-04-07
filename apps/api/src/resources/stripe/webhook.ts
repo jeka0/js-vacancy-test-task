@@ -4,9 +4,10 @@ import { AppKoaContext, AppRouter, Cart } from 'types';
 import cartService from 'resources/cart/cart.service';
 import recordService from 'resources/record/record.service';
 import { productService } from 'resources/product';
-import { Record } from 'types'; 
+import { Record } from 'types';
+import { secret_key, secret_key_webhook } from '../../config/stripeConfig.json';
 
-const stripe = new Stripe('sk_test_51P29dT08aI5ox2vdHCnWiD0YiSJHMxDvBPzOAG3VQajb9Jne5mS4TWFRnq6ibRQhkVzGgwt9fTPG5OcEb94Qqd1F00e45n1nrx');
+const stripe = new Stripe(secret_key);
 
 
 
@@ -15,7 +16,7 @@ async function handler(ctx: AppKoaContext) {
   let event;
 
   try {
-    event = stripe.webhooks.constructEvent(ctx.request.rawBody, sig!, 'whsec_721533509a9df3abbb0fcdd9f78cd7467a0e54540afae17270da429244d79b5e');
+    event = stripe.webhooks.constructEvent(ctx.request.rawBody, sig!, secret_key_webhook);
   } catch (err:any) {
     console.error('Error verifying webhook', err.message);
     ctx.status = 400;
@@ -28,6 +29,7 @@ async function handler(ctx: AppKoaContext) {
       const paymentIntent = event.data.object;
       console.log('PaymentIntent was successful!', paymentIntent);
       const userId = paymentIntent.metadata.userId;
+      console.log(paymentIntent.metadata);
       const cart:Cart = await cartService.findOne({ userId });
       cart.cart.forEach(async recordId=>{
         const record : Record = await recordService.updateOne(

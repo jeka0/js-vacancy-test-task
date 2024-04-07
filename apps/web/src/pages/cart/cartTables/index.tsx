@@ -7,6 +7,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { useRouter } from 'next/router';
 import { accountApi } from 'resources/account';
 import { useCart } from '../cartContext';
+import { public_key } from '../../../config/stripeConfig.json';
 import classes from './index.module.css';
 import CartTable from './cartTable';
 import HistoryTable from './historyTable';
@@ -17,7 +18,7 @@ const CartTables = (props: { isMain:boolean }) => {
   const [sessionId, setSessionId] = useState<string>();
   const { cartData } = useCart();
   const router = useRouter();
-  const asyncStripe = loadStripe('pk_test_51P29dT08aI5ox2vdpaFH9SKaZFEUijTDx77yzKnRRx99W5s7yBmfwC9AcaL1Liar3k7iXdj92vIFvenyEkHr3QYa00qXJ68iud');
+  const asyncStripe = loadStripe(public_key);
   const { data: account } = accountApi.useGet();
   const {
     mutate: get,

@@ -6,7 +6,7 @@ import classes from './index.module.css';
 const HistoryTable = (props: { historyArray: Array<Record> }) => {
   const { historyArray } = props;
 
-  const dateFormat = (date:Date | undefined | null) => {
+  const dateFormat = (date:string | undefined | null) => {
     if (date) {
       const d = date.toString().split('T')[0].split('-');
       return `${d[2]}.

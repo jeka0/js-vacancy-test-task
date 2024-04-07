@@ -5,8 +5,9 @@ import { Cart } from 'types';
 import cartService from 'resources/cart/cart.service';
 import { getRecord } from 'resources/record/actions/getRecord';
 import { validateMiddleware } from 'middlewares';
+import { secret_key } from '../../config/stripeConfig.json';
 
-const stripe = new Stripe('sk_test_51P29dT08aI5ox2vdHCnWiD0YiSJHMxDvBPzOAG3VQajb9Jne5mS4TWFRnq6ibRQhkVzGgwt9fTPG5OcEb94Qqd1F00e45n1nrx');
+const stripe = new Stripe(secret_key);
 const host = 'http://localhost:3002';
 
 const schema = z.object({
@@ -35,6 +36,7 @@ async function handler(ctx: AppKoaContext<ValidatedData>) {
       quantity: record.quantity,
     };
   });
+  console.log(userId);
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
     line_items:lineItems,
