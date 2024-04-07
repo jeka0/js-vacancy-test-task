@@ -10,15 +10,17 @@ export const setTokenCookies = ({
   ctx,
   accessToken,
 }: { ctx: AppKoaContext, accessToken: string }) => {
+  console.log(accessToken);
   const parsedUrl = url.parse(config.WEB_URL);
-
+  console.log(config.WEB_URL);
+  console.log(parsedUrl);
   if (!parsedUrl.hostname) {
     return;
   }
 
   const parsed = psl.parse(parsedUrl.hostname) as psl.ParsedDomain;
   const cookiesDomain = parsed.domain || undefined;
-
+  console.log(cookiesDomain);
   ctx.cookies.set(COOKIES.ACCESS_TOKEN, accessToken, {
     httpOnly: true,
     domain: cookiesDomain,
