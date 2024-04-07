@@ -8,7 +8,7 @@ import { validateMiddleware } from 'middlewares';
 import { secret_key } from '../../config/stripeConfig.json';
 
 const stripe = new Stripe(secret_key);
-const host = 'http://localhost:3002';
+const host = 'https://js-vacancy-test-task-web-8nv5.onrender.com';
 
 const schema = z.object({
   userId: z.string(),
@@ -36,7 +36,7 @@ async function handler(ctx: AppKoaContext<ValidatedData>) {
       quantity: record.quantity,
     };
   });
-  console.log(userId);
+
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
     line_items:lineItems,

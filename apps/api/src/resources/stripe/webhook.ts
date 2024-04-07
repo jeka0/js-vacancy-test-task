@@ -12,6 +12,7 @@ const stripe = new Stripe(secret_key);
 
 
 async function handler(ctx: AppKoaContext) {
+  console.log(ctx);
   const sig = ctx.request.headers['stripe-signature'];
   let event;
 
