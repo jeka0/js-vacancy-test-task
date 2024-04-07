@@ -47,7 +47,6 @@ const CreateProduct: NextPage = () => {
   useEffect(() => {
     if (account)setValue('authorId', account._id);
   }, [account, setValue]);
-  console.log();
   const onSubmit = (submitData: CreateParams) => {
     console.log(submitData); create(submitData, {
       onSuccess: (data) => {

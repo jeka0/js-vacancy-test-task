@@ -6,7 +6,6 @@ import { accountApi } from 'resources/account';
 import { Link } from 'components';
 import { RoutePath } from 'routes';
 
-import ImageLogo from 'public/images/logo.png';
 import UserMenu from './components/UserMenu';
 import ShadowLoginBanner from './components/ShadowLoginBanner';
 
@@ -32,7 +31,7 @@ const Header: FC<{ rout:string }> = ({ rout }) => {
           <Image
             visibleFrom="sm"
             alt="App logo"
-            src={ImageLogo.src}
+            src="/images/logo.png"
             h="42px"
             right={0}
             style={{ objectFit: 'contain' }}
