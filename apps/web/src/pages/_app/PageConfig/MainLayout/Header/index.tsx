@@ -6,7 +6,7 @@ import { accountApi } from 'resources/account';
 import { Link } from 'components';
 import { RoutePath } from 'routes';
 
-import ImageLogo from 'public/images/logo.jpg';
+import ImageLogo from 'public/images/logo.png';
 import UserMenu from './components/UserMenu';
 import ShadowLoginBanner from './components/ShadowLoginBanner';
 

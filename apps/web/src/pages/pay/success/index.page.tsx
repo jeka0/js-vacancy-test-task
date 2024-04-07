@@ -3,7 +3,7 @@ import Head from 'next/head';
 import router from 'next/router';
 import { NextPage } from 'next';
 import { Stack, Title, Text, Button, Image } from '@mantine/core';
-import ImageFile from 'public/images/success.jpg';
+import ImageFile from 'public/images/success.png';
 import { RoutePath } from 'routes';
 import classes from './index.module.css';
 
