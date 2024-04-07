@@ -7,8 +7,10 @@ import { getRecord } from 'resources/record/actions/getRecord';
 import { validateMiddleware } from 'middlewares';
 import { secret_key } from '../../config/stripeConfig.json';
 
+import config from 'config';
+
 const stripe = new Stripe(secret_key);
-const host = 'https://js-vacancy-test-task-web-8nv5.onrender.com';
+//const host = 'https://js-vacancy-test-task-web-8nv5.onrender.com';
 
 const schema = z.object({
   userId: z.string(),
@@ -41,8 +43,8 @@ async function handler(ctx: AppKoaContext<ValidatedData>) {
     payment_method_types: ['card'],
     line_items:lineItems,
     mode: 'payment',
-    cancel_url: `${host}`,
-    success_url: `${host}/pay/success`,
+    cancel_url: `${config.WEB_URL}`,
+    success_url: `${config.WEB_URL}/pay/success`,
     payment_intent_data:{ metadata:{ userId } },
   });
   ctx.body = { sessionId: session.id };
