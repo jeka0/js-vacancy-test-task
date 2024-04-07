@@ -48,7 +48,7 @@ const signInGoogleWithCode = async (ctx: AppKoaContext) => {
     ]);
 
   } else {
-    const lastName = payload.family_name || '';
+    /*const lastName = payload.family_name || '';
     const fullName = lastName ? `${payload.given_name} ${lastName}` : payload.given_name;
 
     const newUser = await userService.insertOne({
@@ -68,7 +68,7 @@ const signInGoogleWithCode = async (ctx: AppKoaContext) => {
         userService.updateLastRequest(newUser._id),
         authService.setTokens(ctx, newUser._id),
       ]);
-    }
+    }*/
   }
 
   ctx.redirect(config.WEB_URL);

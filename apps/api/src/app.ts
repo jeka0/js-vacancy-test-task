@@ -16,12 +16,12 @@ import requestLogger from 'koa-logger';
 
 import { AppKoa } from 'types';
 
-import { socketService } from 'services';
+//import { socketService } from 'services';
 
 import config from 'config';
 import logger from 'logger';
 import routes from 'routes';
-import ioEmitter from 'io-emitter';
+//import ioEmitter from 'io-emitter';
 
 // Import the functions you need from the SDKs you need
 
@@ -51,10 +51,10 @@ const app = initKoa();
 (async () => {
   const server = http.createServer(app.callback());
 
-  await Promise.all([
+  /*await Promise.all([
     ioEmitter.initClient(),
     socketService(server),
-  ]);
+  ]);*/
 
   server.listen(config.PORT, () => {
     logger.info(`API server is listening on ${config.PORT}, in ${config.APP_ENV} environment`);
