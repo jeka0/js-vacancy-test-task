@@ -1,41 +1,29 @@
-import Link from 'next/link';
-import { memo, FC } from 'react';
-import { Menu } from '@mantine/core';
-import { IconUserCircle, IconLogout } from '@tabler/icons-react';
-
+import { memo } from 'react';
+import { IconLogout } from '@tabler/icons-react';
 import { accountApi } from 'resources/account';
-
+import { Link } from 'components';
 import { RoutePath } from 'routes';
-
-import MenuToggle from '../MenuToggle';
+import { useCart } from 'pages/cart/cartContext';
+import ShoppingCart from '../ShoppingCart';
 
 import classes from './index.module.css';
 
-const UserMenu: FC = () => {
+const UserMenu = (props:{ rout:string }) => {
+  const { rout } = props;
   const { mutate: signOut } = accountApi.useSignOut();
+  const { count } = useCart();
 
   return (
-    <Menu>
-      <Menu.Target>
-        <MenuToggle />
-      </Menu.Target>
-      <Menu.Dropdown className={classes.dropdown}>
-        <Menu.Item
-          component={Link}
-          href={RoutePath.Profile}
-          leftSection={<IconUserCircle size={16} />}
-        >
-          Profile settings
-        </Menu.Item>
-
-        <Menu.Item
-          onClick={() => signOut()}
-          leftSection={<IconLogout size={16} />}
-        >
-          Log out
-        </Menu.Item>
-      </Menu.Dropdown>
-    </Menu>
+    <div className={classes.menu}>
+      <Link type="router" href={RoutePath.Cart} underline={false}>
+        <ShoppingCart color={rout !== 'cart' ? 'black' : 'rgb(71, 120, 255)'} count={count} />
+      </Link>
+      <IconLogout
+        size={36}
+        style={{ marginLeft: 20 }}
+        onClick={() => signOut()}
+      />
+    </div>
   );
 };
 

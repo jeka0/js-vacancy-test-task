@@ -1,4 +1,5 @@
 node_modules
+src/config/js-vacancy-test-task-firebase-adminsdk-s724h-e7d7b26949.json
 src/config/environment/local.ts
 src/assets/emails/dist/*
 !src/assets/emails/dist

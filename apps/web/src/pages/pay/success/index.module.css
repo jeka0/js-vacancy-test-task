@@ -1,0 +1,17 @@
+.area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  margin-bottom: auto;
+  padding: 10px 10px;
+  height: 50%;
+  border-radius: 14px;
+}
+
+.backButton{
+  background-color: rgb(89, 89, 253);
+  border-radius: 12px;
+  padding: 0 40px;
+}

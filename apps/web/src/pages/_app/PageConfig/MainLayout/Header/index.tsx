@@ -1,21 +1,20 @@
 import { memo, FC } from 'react';
-import { AppShellHeader as LayoutHeader, Container } from '@mantine/core';
+import { AppShellHeader as LayoutHeader, Container, Image } from '@mantine/core';
 
 import { accountApi } from 'resources/account';
 
 import { Link } from 'components';
 import { RoutePath } from 'routes';
 
-import { LogoImage } from 'public/images';
-
+import ImageLogo from 'public/images/logo.jpg';
 import UserMenu from './components/UserMenu';
 import ShadowLoginBanner from './components/ShadowLoginBanner';
 
 import classes from './index.module.css';
+import Navigation from './components/Navigation';
 
-const Header: FC = () => {
+const Header: FC<{ rout:string }> = ({ rout }) => {
   const { data: account } = accountApi.useGet();
-
   if (!account) return null;
 
   return (
@@ -30,9 +29,17 @@ const Header: FC = () => {
         fluid
       >
         <Link type="router" href={RoutePath.Home}>
-          <LogoImage />
+          <Image
+            visibleFrom="sm"
+            alt="App logo"
+            src={ImageLogo.src}
+            h="42px"
+            right={0}
+            style={{ objectFit: 'contain' }}
+          />
         </Link>
-        <UserMenu />
+        <Navigation rout={rout} />
+        <UserMenu rout={rout} />
       </Container>
     </LayoutHeader>
   );

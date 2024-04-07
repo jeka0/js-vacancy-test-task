@@ -37,7 +37,7 @@ async function handler(ctx: AppKoaContext<ValidatedData>) {
 
   const resetPasswordUrl = `${config.API_URL}/account/verify-reset-token?token=${resetPasswordToken}&email=${encodeURIComponent(user.email)}`;
 
-  await Promise.all([
+  /* await Promise.all([
     userService.updateOne({ _id: user._id }, () => ({ resetPasswordToken })),
     emailService.sendTemplate<Template.RESET_PASSWORD>({
       to: user.email,
@@ -48,7 +48,7 @@ async function handler(ctx: AppKoaContext<ValidatedData>) {
         href: resetPasswordUrl,
       },
     }),
-  ]);
+  ]);*/
 
   ctx.body = {};
 }

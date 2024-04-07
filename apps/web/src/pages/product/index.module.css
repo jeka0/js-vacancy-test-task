@@ -1,0 +1,17 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+}
+
+.addarea{
+  border: 1px solid rgba(0, 0, 0, 0.418);
+  border-radius: 10px;
+  width: 250px;
+  height: 240px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color:rgb(28, 137, 255);
+  flex-direction: column;
+}

@@ -27,6 +27,6 @@
     "**/*.tsx",
     "next.config.js",
     "postcss.config.js"
-  ],
+, "src/theme/contexts/cart-context/cart-context.js"  ],
   "exclude": ["node_modules"],
 }

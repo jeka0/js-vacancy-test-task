@@ -30,7 +30,8 @@
     "@socket.io/redis-emitter": "5.1.0",
     "app-constants": "workspace:*",
     "bcryptjs": "2.4.3",
-    "dotenv": "16.0.3",
+    "firebase": "10.10.0",
+    "firebase-admin": "12.0.0",
     "google-auth-library": "8.7.0",
     "koa": "2.14.1",
     "koa-bodyparser": "4.3.0",
@@ -52,6 +53,7 @@
     "redis": "4.6.5",
     "schemas": "workspace:*",
     "socket.io": "4.6.1",
+    "stripe": "14.24.0",
     "types": "workspace:*",
     "winston": "3.8.2",
     "zod": "3.21.4"

@@ -1,8 +1,8 @@
-import { FC, ReactElement } from 'react';
+import { FC, ReactElement, useState, useEffect } from 'react';
 import { AppShell } from '@mantine/core';
+import { CartProvider } from 'pages/cart/cartContext';
 
 import Header from './Header';
-import Footer from './Footer';
 
 import classes from './MainLayout.module.css';
 
@@ -10,23 +10,31 @@ interface MainLayoutProps {
   children: ReactElement;
 }
 
-const MainLayout: FC<MainLayoutProps> = ({ children }) => (
-  <AppShell
-    header={{ height: 72 }}
-    footer={{ height: 40 }}
-    classNames={{
-      root: classes.root,
-      main: classes.main,
-    }}
-  >
-    <Header />
+const MainLayout: FC<MainLayoutProps> = ({ children }) => {
+  const [rout, setRout] = useState<string>('');
 
-    <AppShell.Main>
-      {children}
-    </AppShell.Main>
+  useEffect(() => {
+    setRout(window.location.href.split('/')[3]);
+  }, [children]);
 
-    <Footer />
-  </AppShell>
-);
+  return (
+    <AppShell
+      header={{ height: 72 }}
+      footer={{ height: 40 }}
+      classNames={{
+        root: classes.root,
+        main: classes.main,
+      }}
+    >
+      <CartProvider>
+        <Header rout={rout} />
+
+        <AppShell.Main>
+          {children}
+        </AppShell.Main>
+      </CartProvider>
+    </AppShell>
+  );
+};
 
 export default MainLayout;

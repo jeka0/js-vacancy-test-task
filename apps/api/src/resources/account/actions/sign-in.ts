@@ -28,14 +28,13 @@ async function validator(ctx: AppKoaContext<ValidatedData>, next: Next) {
   });
 
   const isPasswordMatch = await securityUtil.compareTextWithHash(password, user.passwordHash);
-
   ctx.assertClientError(isPasswordMatch, {
     credentials: 'The email or password you have entered is invalid',
   });
 
-  ctx.assertClientError(user.isEmailVerified, {
+  /*ctx.assertClientError(user.isEmailVerified, {
     email: 'Please verify your email to sign in',
-  });
+  });*/
 
   ctx.validatedData.user = user;
   await next();

@@ -1,0 +1,16 @@
+.row{
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.image{
+  object-fit: contain;
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+}
+
+.title{
+  margin-left: 20px;
+}
