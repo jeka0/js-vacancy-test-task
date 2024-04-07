@@ -30,6 +30,7 @@
     "@socket.io/redis-emitter": "5.1.0",
     "app-constants": "workspace:*",
     "bcryptjs": "2.4.3",
+    "dotenv": "16.0.3",
     "firebase": "10.10.0",
     "firebase-admin": "12.0.0",
     "google-auth-library": "8.7.0",
