@@ -33,8 +33,7 @@ async function handler(ctx: AppKoaContext<ValidatedData>) {
   const query = { price:{} };
   if (filter?.price?.fromPrice)query.price = { $gte: filter.price.fromPrice };
   if (filter?.price?.toPrice)query.price = { ...query.price, $lt: filter.price.toPrice };
-  console.log(filter);
-  console.log(query);
+
   const products = await productService.find(
     {
       $and: [

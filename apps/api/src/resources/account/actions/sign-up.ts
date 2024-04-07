@@ -22,7 +22,7 @@ interface ValidatedData extends z.infer<typeof schema> {
 
 async function validator(ctx: AppKoaContext<ValidatedData>, next: Next) {
   const { email } = ctx.validatedData;
-  console.log(userService.findOne({ email }));
+  
   const isUserExists = await userService.exists({ email });
 
   ctx.assertClientError(!isUserExists, {

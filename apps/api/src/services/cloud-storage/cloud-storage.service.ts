@@ -43,7 +43,6 @@ const upload = (fileName: string, file: File): Promise<CompleteMultipartUploadOu
 };
 
 const uploadPublic = (fileName: string, file: File): Promise<CompleteMultipartUploadOutput> => {
-  console.log(config);
   const params = {
     Bucket,
     ContentType: file.mimetype,

@@ -12,7 +12,6 @@ const stripe = new Stripe(secret_key);
 
 
 async function handler(ctx: AppKoaContext) {
-  console.log(ctx);
   const sig = ctx.request.headers['stripe-signature'];
   let event;
 
@@ -30,7 +29,7 @@ async function handler(ctx: AppKoaContext) {
       const paymentIntent = event.data.object;
       console.log('PaymentIntent was successful!', paymentIntent);
       const userId = paymentIntent.metadata.userId;
-      console.log(paymentIntent.metadata);
+
       const cart:Cart = await cartService.findOne({ userId });
       cart.cart.forEach(async recordId=>{
         const record : Record = await recordService.updateOne(

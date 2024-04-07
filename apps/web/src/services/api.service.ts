@@ -50,7 +50,7 @@ class ApiClient {
     this._api.interceptors.request.use((req_config) => {
       const conf = req_config;
       const token = localStorage.getItem('accessToken');
-      console.log(token);
+
       conf.headers.Authorization = `Bearer ${token}`;
 
       return conf;

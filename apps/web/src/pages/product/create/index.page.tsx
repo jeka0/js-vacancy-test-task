@@ -48,7 +48,7 @@ const CreateProduct: NextPage = () => {
     if (account)setValue('authorId', account._id);
   }, [account, setValue]);
   const onSubmit = (submitData: CreateParams) => {
-    console.log(submitData); create(submitData, {
+    create(submitData, {
       onSuccess: (data) => {
         queryClient.setQueryData(['created-product'], data);
         window.history.back();
