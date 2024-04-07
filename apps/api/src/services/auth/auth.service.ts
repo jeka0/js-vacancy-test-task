@@ -12,6 +12,8 @@ const setTokens = async (ctx: AppKoaContext, userId: string, isShadow?: boolean)
       accessToken,
     });
   }
+
+  return { accessToken };
 };
 
 const unsetTokens = async (ctx: AppKoaContext) => {

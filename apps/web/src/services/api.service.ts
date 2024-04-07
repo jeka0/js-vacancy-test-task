@@ -47,6 +47,14 @@ class ApiClient {
     this._handlers = new Map();
 
     this._api = axios.create(axiosConfig);
+    this._api.interceptors.request.use((req_config) => {
+      const conf = req_config;
+      const token = localStorage.getItem('accessToken');
+      console.log(token);
+      conf.headers.Authorization = `Bearer ${token}`;
+
+      return conf;
+    });
     this._api.interceptors.response.use(
       (response: AxiosResponse) => response.data,
       (error) => {

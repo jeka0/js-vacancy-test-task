@@ -11,7 +11,9 @@ export function useSignIn<T>() {
 
   return useMutation<User, unknown, T>(signIn, {
     onSuccess: (data) => {
-      queryClient.setQueryData(['account'], data);
+      const { accessToken, ...account } = data;
+      if (accessToken)localStorage.setItem('accessToken', accessToken);
+      queryClient.setQueryData(['account'], account);
     },
   });
 }
@@ -22,6 +24,7 @@ export function useSignOut() {
   return useMutation(signOut, {
     onSuccess: () => {
       queryClient.setQueryData(['account'], null);
+      localStorage.removeItem('accessToken');
     },
   });
 }
